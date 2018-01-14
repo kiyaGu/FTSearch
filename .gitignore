@@ -18,3 +18,10 @@ Thumbs.db
 *.rar
 *.tar
 *.zip
+
+.sass-cache/
+bower_components/
+node_modules/
+public/
+build/
+demos/local/
