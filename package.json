@@ -1,15 +1,19 @@
 {
-    "name": "ft_news_search",
-    "version": "1.0.0",
-    "description": "",
-    "main": "server.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "private": true,
-    "devDependencies": {
-        "origami-build-tools": "latest"
-    },
-    "author": "Kiya Gur.",
-    "license": "ISC"
+  "name": "ft_news_search",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "devDependencies": {
+    "nodemon": "^1.14.11",
+    "origami-build-tools": "latest"
+  },
+  "author": "Kiya Gur.",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }

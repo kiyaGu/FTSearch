@@ -8,9 +8,152 @@
     <meta name="description" content="A website for searching news headlines from FT API">
     <meta name="author" content="Kiya Gur.">
     <title>FT</title>
+    <!--
+      Perform your cuts the mustard test.
+    -->
+    <script>
+        var cutsTheMustard = ('querySelector' in document && 'localStorage' in window && 'addEventListener' in window);
+
+        if (cutsTheMustard) {
+            // Swap the `core` class on the HTML element for an `enhanced` one
+            // We're doing it early in the head to avoid a flash of unstyled content
+            document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
+        }
+    </script>
+
+    <!--
+      Hide any enhanced experience content when in core mode, and vice versa.
+      Add any other inlined CSS here
+    -->
+    <style>
+        .core .o--if-js,
+        .enhanced .o--if-no-js {
+            display: none !important;
+        }
+    </style>
+
+    <!--
+      This is where your CSS bundle is loaded, and we add any inline CSS
+    -->
+    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1%3Abrand-ft-logo-square-coloured?source=update-logos&width=32&height=32&format=png" sizes="32x32">
+
+
+    <link rel="stylesheet" href="/bundle.css" />
+    <style>
+        /* Add any inline CSS here */
+    </style>
+
+    <!--
+      Unconditionally load the Polyfill Service to provide the best support
+      possible for modern web standards.
+      Only features missing in this user agent will be filled.
+      If you want, you can provide a list of features to polyfill, otherwise
+      all features that can be polyfilled will be.
+      See the Polyfill Service home page for more details:
+      https://cdn.polyfill.io/
+    -->
+    <script src="https://polyfill.io/v2/polyfill.min.js"></script>
+
+    <!--
+      Load the main JavaScript bundle asynchronously
+    -->
+    <script>
+        (function(src) {
+            if (cutsTheMustard) {
+                var o = document.createElement('script');
+                o.async = o.defer = true;
+                o.src = src;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(o, s);
+            }
+        }('/bundle.js'));
+    </script>
 </head>
 
 <body>
+    <header class="o-header o-header--simple" data-o-component="o-header" data-o-header--no-js="">
+        <div class="o-header__row o-header__top">
+            <div class="o-header__container">
+                <div class="o-header__top-wrapper">
+
+                    <div class="o-header__top-column o-header__top-column--left">
+                        <a href="/" class="o-header__top-link o-header__top-link--menu" aria-controls="o-header-drawer" title="Open drawer menu">
+                            <span class="o-header__top-link-label">Menu</span>
+                        </a>
+                    </div>
+
+                    <div class="o-header__top-column o-header__top-column--center">
+                        <!--<div class="o-header__top-takeover"></div>-->
+                        <a class="o-header__top-logo" href="/" title="Go to Financial Times homepage">
+                            <span class="o-header__visually-hidden">Financial Times</span>
+                        </a>
+                    </div>
+
+                    <div class="o-header__top-column o-header__top-column--right">
+                        <!--<div class="o-header__top-takeover"></div>-->
+                        <a class="o-header__top-link o-header__top-link--myft" href="/myft" aria-label="My F T">
+                            <span class="o-header__visually-hidden">myFT</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+
+    <footer class="o-footer o-footer--theme-dark " data-o-component="o-footer " data-o-footer--no-js=" ">
+        <div class="o-footer__container ">
+
+            <div class="o-footer__row ">
+                <nav class="o-footer__matrix " role="navigation " aria-label="Useful links ">
+                    <div class="o-footer__matrix-group o-footer__matrix-group--12 ">
+                        <div class="o-footer__matrix-content " id="o-footer-section-0 ">
+                            <div class="o-footer__matrix-column " data-o-grid-colspan="1 "></div>
+                            <div class="o-footer__matrix-column " data-o-grid-colspan="2 ">
+                                <a class="o-footer__matrix-link " href="//www.ft.com/aboutus ">About Us</a>
+                            </div>
+                            <div class="o-footer__matrix-column " data-o-grid-colspan="2 ">
+                                <a class="o-footer__matrix-link " href="//www.ft.com/servicestools/help/terms ">Terms &amp; Conditions</a>
+                            </div>
+                            <div class="o-footer__matrix-column " data-o-grid-colspan="2 ">
+                                <a class="o-footer__matrix-link " href="//www.ft.com/servicestools/help/privacy ">Privacy</a>
+                            </div>
+                            <div class="o-footer__matrix-column " data-o-grid-colspan="2 ">
+                                <a class="o-footer__matrix-link " href="//www.ft.com/cookiepolicy ">Cookies</a>
+                            </div>
+                            <div class="o-footer__matrix-column " data-o-grid-colspan="2 ">
+                                <a class="o-footer__matrix-link " href="//www.ft.com/servicestools/help/copyright ">Copyright</a>
+                            </div>
+                            <div class="o-footer__matrix-column " data-o-grid-colspan="1 "></div>
+                        </div>
+                    </div>
+            </div>
+            </nav>
+
+            <h6 class="o-footer__external-link o-footer__matrix-title ">
+                <a class="o-footer__more-from-ft o-footer__matrix-title " href="http://ft.com/more-from-ft-group ">More from the FT Group</a>
+            </h6>
+        </div>
+
+        <div class="o-footer__copyright " role="contentinfo ">
+            <small>
+                Markets data delayed by at least 15 minutes. &#xA9; THE FINANCIAL TIMES LTD 2018.
+                <abbr title="Financial Times " aria-label="F T ">FT</abbr> and &#x2018;Financial Times&#x2019; are trademarks of The Financial Times Ltd.
+                <br></br>
+                The Financial Times and its journalism are subject to a self-regulation regime under the
+                <a href="http://aboutus.ft.com/en-gb/ft-editorial-code/ " aria-label="F T Editorial Code of Practice ">FT Editorial Code of Practice</a>.
+            </small>
+        </div>
+
+        </div>
+        <div class="o-footer__brand ">
+            <div class="o-footer__container ">
+                <div class="o-footer__brand-logo "></div>
+            </div>
+        </div>
+    </footer>
+
 
 </body>
 
