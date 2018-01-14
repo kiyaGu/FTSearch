@@ -14,16 +14,18 @@
       <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-left o-buttons-icon--icon-only" type="submit">
         <span class="o-buttons-icon__label">Previous page</span>
       </button>
-      <input id="currentPage-Number-value" type="hidden" name="currentPageNumber" value="{{articles.0.currentPage}}" />
-      <input id="current-Keyword" type="hidden" name="currentKeyword" value="{{articles.0.keyword}}" />
+      <input type="hidden" name="currentPageNumber" value="{{articles.0.currentPage}}" />
+      <input type="hidden" name="totalPageNumber" value="{{articles.0.totalNumberOfPages}}" />
+      <input type="hidden" name="currentKeyword" value="{{articles.0.keyword}}" />
       <span id="pagination_info">page
         <span id="currentPage-Number">{{articles.0.currentPage}}</span>&nbsp;of&nbsp;
-        <span id="totalPage-Number">{{articles.0.totalPages}}</span>
+        <span id="totalPage-Number">{{articles.0.totalNumberOfPages}}</span>
       </span>
     </form>
     <form action="/page" method="POST" role="search " aria-label="Site search" id="nextPage-Form">
-      <input id="currentPage-Number-value" type="hidden" name="currentPageNumber" value="{{articles.0.currentPage}}" />
-      <input id="current-Keyword" type="hidden" name="currentKeyword" value="{{articles.0.keyword}}" />
+      <input type="hidden" name="currentPageNumber" value="{{articles.0.currentPage}}" />
+      <input type="hidden" name="totalPageNumber" value="{{articles.0.totalNumberOfPages}}" />
+      <input type="hidden" name="currentKeyword" value="{{articles.0.keyword}}" />
       <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-right o-buttons-icon--icon-only" type="submit">
         <span class="o-buttons-icon__label">Next results</span>
       </button>
