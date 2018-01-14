@@ -4,6 +4,11 @@ $o-fonts-is-silent: false;
 $o-ft-icons-is-silent: false;
 $o-header-is-silent: false;
 $o-footer-is-silent: false;
+$o-card-is-silent: false;
+$o-forms-is-silent: false;
+$o-buttons-is-silent: false;
+$o-teaser-is-silent: false;
+$o-teaser-collection-is-silent: false;
 // Import Origami components
 @import "o-grid/main";
 @import "o-fonts/main";
@@ -11,6 +16,11 @@ $o-footer-is-silent: false;
 @import "o-header/main";
 @import "o-footer/main";
 @import "o-colors/main";
+@import "o-card/main";
+@import "o-forms/main";
+@import "o-buttons/main";
+@import "o-teaser/main";
+@import "o-teaser-collection/main";
 // Store the default FT sans-serif font stack in a variable
 $sans-serif: oFontsGetFontFamilyWithFallbacks(MetricWeb);
 html {
@@ -115,6 +125,101 @@ body {
 
 input:focus {
     outline: #0a5e66 solid 2px;
+}
+
+.latestNews-container {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    margin: 1em 2em;
+    flex-wrap: wrap;
+    .o-card {
+        min-width: 350px;
+        margin: 1em 0.5em;
+        flex-basis: 350px;
+        .o-card__image {
+            padding: 1em;
+            margin: 0 auto;
+            img {
+                max-width: 300px;
+                max-height: 300px;
+            }
+        }
+    }
+}
+
+.o-card__content {
+    padding: 0.5em 1em;
+    .card-tag a {
+        color: #990f3d;
+        font-family: MetricWeb, sans-serif;
+        line-height: 20px;
+        font-weight: 700;
+        display: block;
+        margin: 0 0 10px;
+        text-decoration: none;
+    }
+    .card-title a {
+        font-family: MetricWeb, sans-serif;
+        display: block;
+        margin: 0 0 10px;
+        text-decoration: none;
+        color: #33302e;
+    }
+    .latestNews-author {
+        margin-bottom: 0.3em;
+    }
+}
+
+#articles-container {
+    background: inherit;
+    margin: 1em 5em;
+    #list-of--results {
+        display: flex;
+        flex-direction: column;
+        li {
+            list-style: none;
+            margin: 0 0.5em;
+        }
+    }
+    .o-teaser-collection__heading {
+        width: 25%;
+    }
+}
+
+.o-teaser {
+    display: flex;
+    justify-content: space-around;
+    .o-teaser__image-container {
+        flex-basis: 20%;
+        padding-top: 0.5em;
+        padding-bottom: 1em;
+        img {
+            height: 150px;
+            width: 150px;
+        }
+    }
+    .o-teaser__content {
+        border-bottom: 1px solid #0a5e66;
+        padding-bottom: 2em;
+        flex-basis: 75%;
+    }
+}
+
+.article__tag {
+    a {
+        color: #990f3d;
+        text-decoration: none;
+    }
+    a:href {
+        text-transform: lowercase;
+    }
+}
+
+.o-teaser-collection__heading--small:before,
+.o-teaser-collection__heading--small:after {
+    width: 100%;
 }
 
 .o-footer {
