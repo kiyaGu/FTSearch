@@ -222,6 +222,24 @@ input:focus {
     width: 100%;
 }
 
+.o-buttons__pagination {
+    text-align: center;
+    #pagination_info {
+        padding-left: 0.8em;
+        padding-right: 0.8em;
+    }
+    #currentPage-Number,
+    #totalPage-Number {
+        font-weight: 700;
+    }
+    #currentPage-Number-value {
+        display: none;
+    }
+    form {
+        display: inline-block;
+    }
+}
+
 .o-footer {
     margin-top: 0;
 }
