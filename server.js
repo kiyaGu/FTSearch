@@ -2,12 +2,9 @@ const express = require("express");
 const path = require("path");
 var exphbs = require("express-handlebars");
 const formidable = require("express-formidable");
-require("es6-promise").polyfill();
-require("isomorphic-fetch");
-
-const ftSearchController = require("./controllers/ftSearchController");
+const ftSearchHomeController = require("./controllers/ftSearchHomeController");
 const ftSearchHeadlinesController = require("./controllers/ftSearchHeadlinesController");
-
+const moment = require("moment");
 const app = express();
 const hbs = exphbs.create({
     /* config */
@@ -22,7 +19,7 @@ app.set("views", path.join(process.cwd(), "views"));
 app.set("view engine", "handlebars");
 
 app.get("/", (req, res) => {
-    ftSearchController(res);
+    ftSearchHomeController(req, res);
 });
 app.get("/search", (req, res) => {
     ftSearchHeadlinesController(req, res);

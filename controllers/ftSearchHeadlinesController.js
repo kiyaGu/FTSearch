@@ -1,6 +1,6 @@
 const moment = require("moment");
 const ftFetch = require("../api/ftFeatch");
-moment().format();
+
 module.exports = function(req, res) {
     let keyword = req.query.q;
     let currentPage = req.query.page ? parseInt(req.query.page) : 1;

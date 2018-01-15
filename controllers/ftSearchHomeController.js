@@ -1,8 +1,6 @@
 const moment = require("moment");
 const ftFetch = require("../api/ftFeatch");
 
-moment().format();
-
 module.exports = function(req, res) {
     //fetch only the latest 9 results
     let maxResults = 9;
