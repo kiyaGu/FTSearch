@@ -7,10 +7,10 @@ if (
     const Ajax_request = require("./ajaxRequest");
     /*==========================  ajax request ==================================*/
     const createArticleEntry = require("./createArticleEntryDOMElements");
+    const setPaginationElements = require("./setPaginationElementsValue");
+    const updateThePage = require("./updateThePage");
 
-    let setPaginationElements = require("./setPaginationElementsValue");
-
-    let handlePagination = query => {
+    const handlePagination = query => {
         let url = `/search${query}`;
         //if fetch is supported by the client browser
         if (self.fetch) {
@@ -23,15 +23,7 @@ if (
                 .then(res => res.json())
                 .catch(error => console.error("Error:", error))
                 .then(response => {
-                    let ul = document.getElementById("list-of--results");
-                    while (ul.firstChild) {
-                        ul.removeChild(ul.firstChild);
-                    }
-
-                    response.articles.forEach(article => {
-                        createArticleEntry(article, ul);
-                    });
-                    setPaginationElements(response.articles[0]);
+                    updateThePage(response);
                 });
         } else {
             let request = Ajax_request();
@@ -43,15 +35,7 @@ if (
                         if (request.status === 200) {
                             // check if request was successful
                             let response = JSON.parse(request.responseText);
-                            let ul = document.getElementById("list-of--results");
-                            while (ul.firstChild) {
-                                ul.removeChild(ul.firstChild);
-                            }
-
-                            response.articles.forEach(article => {
-                                createArticleEntry(article, ul);
-                            });
-                            setPaginationElements(response.articles[0]);
+                            updateThePage(response);
                         } else {
                             alert(
                                 "An error occurred during your request: " +
