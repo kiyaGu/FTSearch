@@ -1,40 +1,17 @@
 const moment = require("moment");
+const ftFetch = require("../api/ftFeatch");
+
 moment().format();
-module.exports = function(res) {
-    fetch("http://api.ft.com/content/search/v1", {
-            method: "POST",
-            headers: {
-                "X-Api-Key": "59cbaf20e3e06d3565778e7bbfc218a2dde8436ba6af7ed77d5afa7e",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                queryString: "",
-                queryContext: {
-                    curations: ["ARTICLES"]
-                },
-                resultContext: {
-                    maxResults: 9,
-                    offset: 0,
-                    contextual: true,
-                    aspects: [
-                        "title",
-                        "summary",
-                        "editorial",
-                        "location",
-                        "metadata",
-                        "lifecycle"
-                    ]
-                }
-            })
-        })
-        .then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("The resource is not found");
-            }
-            return response.json();
-        })
-        .then(function(response) {
+
+module.exports = function(req, res) {
+    //fetch only the latest 9 results
+    let maxResults = 9;
+    let offset = 0;
+
+    ftFetch(req, maxResults, offset)
+        .then(response => {
             let articles = [];
+
             response.results[0].results.forEach(article => {
                 articles.push({
                     keyword: "latest",
@@ -51,5 +28,9 @@ module.exports = function(res) {
             });
 
             res.render("home", { articles: articles });
+        })
+        .catch(function(err) {
+            // Will catch failure of first failed promise
+            console.log("Failed:", err);
         });
 };
