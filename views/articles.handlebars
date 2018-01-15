@@ -10,16 +10,16 @@
   </div>
 
   <div class="o-buttons__pagination">
-    <a href="?q={{articles.0.keyword}}&page={{articles.0.previousPage}}" id="previousPage">
+    <a href="?q={{articles.0.keyword}}&page={{articles.0.previousPageNumber}}" id="previousPage">
       <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-left o-buttons-icon--icon-only">
         <span class="o-buttons-icon__label">Previous page</span>
       </button>
     </a>
     <span id="pagination_info">Page
-      <span id="currentPage-Number">{{articles.0.currentPage}}</span>&nbsp;of&nbsp;
+      <span id="currentPage-Number">{{articles.0.currentPageNumber}}</span>&nbsp;of&nbsp;
       <span id="totalPage-Number">{{articles.0.totalNumberOfPages}}</span>
     </span>
-    <a href="?q={{articles.0.keyword}}&page={{articles.0.nextPage}}" id="nextPage">
+    <a href="?q={{articles.0.keyword}}&page={{articles.0.nextPageNumber}}" id="nextPage">
       <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-right o-buttons-icon--icon-only">
         <span class="o-buttons-icon__label">Next results</span>
       </button>

@@ -1,14 +1,13 @@
+const Ajax_request = require("./ajaxRequest");
+const createArticleEntry = require("./createArticleEntryDOMElements");
+const setPaginationElements = require("./setPaginationElementsValue");
+const updateThePage = require("./updateThePage");
 // Wait until the page has loaded
 if (
     document.readyState === "interactive" ||
     document.readyState === "complete"
 ) {
     document.dispatchEvent(new CustomEvent("o.DOMContentLoaded"));
-    const Ajax_request = require("./ajaxRequest");
-    /*==========================  ajax request ==================================*/
-    const createArticleEntry = require("./createArticleEntryDOMElements");
-    const setPaginationElements = require("./setPaginationElementsValue");
-    const updateThePage = require("./updateThePage");
 
     const handlePagination = query => {
         let url = `/search${query}`;
@@ -54,11 +53,12 @@ if (
         }
     };
 
+    //foward pagination
     let nextPageButton = document.getElementById("nextPage");
-
     if (nextPageButton !== null) {
         document.getElementById("nextPage").addEventListener("click", function(e) {
             e.preventDefault();
+            //will be used for get request
             let query = document.getElementById("nextPage").getAttribute("href");
             handlePagination(query);
         });
@@ -66,7 +66,6 @@ if (
 
     //backward
     let previousPageButton = document.getElementById("nextPage");
-
     if (previousPageButton !== null) {
         document
             .getElementById("previousPage")

@@ -15,6 +15,7 @@ let setElementAttribute = function(element, attribute, value) {
 };
 
 module.exports = (article, ul) => {
+    //will create the HTML element that matches the one at views/partials/article.handlebars
     let li = createElementFunc("li");
     let articleTag = createElementFunc("article");
 
@@ -32,6 +33,7 @@ module.exports = (article, ul) => {
     );
 
     let img = createElementFunc("img");
+    //as a placeholder needs to be replaced by the actual image, which is not provided for this version of api,Headline Licence,
     img.src =
         "https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img?url=http%253A%252F%252Fim.ft-static.com%252Fcontent%252Fimages%252Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img&source=o-teaser-demo&width=400&height=400&fit=cover&format=auto&quality=medium ";
 
@@ -58,19 +60,17 @@ module.exports = (article, ul) => {
     if (article.author) {
         p2.appendChild(createTextContentFunc(article.author));
     } else {
-        //instead of undefined will be ""
+        //instead of undefined will be "" as some result may not have it
         p2.appendChild(createTextContentFunc(""));
     }
 
     let time = createElementFunc("time");
     time.appendChild(createTextContentFunc(article.publicationDate));
-
     ul.appendChild(li);
     li.appendChild(articleTag);
     articleTag.appendChild(div1);
     div1.appendChild(div2);
     div2.appendChild(img);
-
     articleTag.appendChild(div3);
     div3.appendChild(div4);
     div4.appendChild(h31);
@@ -78,8 +78,6 @@ module.exports = (article, ul) => {
     div3.appendChild(h32);
     h32.appendChild(a2);
     div3.appendChild(p1);
-
     div3.appendChild(p2);
-
     div3.appendChild(time);
 };

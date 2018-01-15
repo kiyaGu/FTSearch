@@ -16,7 +16,7 @@ module.exports = function(req, maxResult, Offset) {
         fetch("http://api.ft.com/content/search/v1", {
                 method: "POST",
                 headers: {
-                    "X-Api-Key": "59cbaf20e3e06d3565778e7bbfc218a2dde8436ba6af7ed77d5afa7e",
+                    "X-Api-Key": process.env.FTAPIKEY,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
