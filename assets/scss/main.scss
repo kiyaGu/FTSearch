@@ -40,7 +40,7 @@ body {
 }
 
 #headline-search-container {
-    min-height: 10vh;
+    min-height: 20vh;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -235,8 +235,8 @@ input:focus {
     #currentPage-Number-value {
         display: none;
     }
-    form {
-        display: inline-block;
+    a {
+        text-decoration: none;
     }
 }
 

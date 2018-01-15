@@ -10,25 +10,20 @@
   </div>
 
   <div class="o-buttons__pagination">
-    <form action="/pageback" method="POST" role="search " aria-label="Site search" id="previousPage-Form">
+    <a href="/page?q={{articles.0.keyword}}&page={{articles.0.previousPage}}">
       <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-left o-buttons-icon--icon-only" type="submit">
         <span class="o-buttons-icon__label">Previous page</span>
       </button>
-      <input type="hidden" name="currentPageNumber" value="{{articles.0.currentPage}}" />
-      <input type="hidden" name="totalPageNumber" value="{{articles.0.totalNumberOfPages}}" />
-      <input type="hidden" name="currentKeyword" value="{{articles.0.keyword}}" />
-      <span id="pagination_info">page
-        <span id="currentPage-Number">{{articles.0.currentPage}}</span>&nbsp;of&nbsp;
-        <span id="totalPage-Number">{{articles.0.totalNumberOfPages}}</span>
-      </span>
-    </form>
-    <form action="/page" method="POST" role="search " aria-label="Site search" id="nextPage-Form">
-      <input type="hidden" name="currentPageNumber" value="{{articles.0.currentPage}}" />
-      <input type="hidden" name="totalPageNumber" value="{{articles.0.totalNumberOfPages}}" />
-      <input type="hidden" name="currentKeyword" value="{{articles.0.keyword}}" />
+    </a>
+    <span id="pagination_info">Page
+      <span id="currentPage-Number">{{articles.0.currentPage}}</span>&nbsp;of&nbsp;
+      <span id="totalPage-Number">{{articles.0.totalNumberOfPages}}</span>
+    </span>
+    <a href="/page?q={{articles.0.keyword}}&page={{articles.0.nextPage}}">
       <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-right o-buttons-icon--icon-only" type="submit">
         <span class="o-buttons-icon__label">Next results</span>
       </button>
-    </form>
+    </a>
+
   </div>
 </section>
