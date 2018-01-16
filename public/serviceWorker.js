@@ -23,11 +23,10 @@ self.addEventListener("activate", function(e) {
     console.log("[ServiceWorker] Activate");
     e.waitUntil(
         caches.keys().then(function(cacheNames) {
-            console.log(cacheNames);
             return Promise.all(
                 cacheNames
                 .filter(function(cacheName) {
-                    //// Return true if you want to remove this cache
+                    ////  remove this cache
                     return true;
                 })
                 .map(function(cacheName) {
@@ -48,10 +47,18 @@ self.addEventListener("fetch", function(event) {
             return cache.match(event.request).then(function(response) {
                 return (
                     response ||
-                    fetch(event.request).then(function(response) {
+                    fetch(event.request)
+                    .then(function(response) {
                         //key/value pairs to be added to the current Cache object
                         cache.put(event.request, response.clone());
                         return response;
+                    })
+                    .catch(function() {
+                        // If both fail, show a generic fallback:
+                        return caches.match("/search");
+                        // However, in reality you'd have many different
+                        // fallbacks, depending on URL & headers.
+                        // Eg, a fallback silhouette image for avatars.
                     })
                 );
             });

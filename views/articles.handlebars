@@ -9,9 +9,8 @@
         {{>article}}
       </ul>
     </div>
-
-    <div class="o-buttons__pagination">
-      <a href="?q={{articles.articles.0.keyword}}&page={{this.pageInformation.previousPageNumber}}" id="previousPageLink">
+    <div class="o-buttons__pagination" aria-label="pagination">
+      <a href="?q={{articles.articles.0.keyword}}&page={{this.pageInformation.previousPageNumber}}" id="previousPageLink" role="navigation">
         <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-left o-buttons-icon--icon-only" id="previousPageButton">
           <span class="o-buttons-icon__label">Previous page</span>
         </button>
@@ -21,9 +20,10 @@
           <strong>{{this.pageInformation.currentPageNumber}}</strong>
         </span>
       </span>
-      <a href="?q={{this.articles.0.keyword}}&page={{this.pageInformation.nextPageNumber}}" id="nextPageLink">
-        <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-right o-buttons-icon--icon-only" id="nextPageButton">
-          <span class="o-buttons-icon__label">Next results</span>
+      <a href="?q={{this.articles.0.keyword}}&page={{this.pageInformation.nextPageNumber}}" id="nextPageLink" role="navigation">
+        <button class=" o-buttons o-buttons-icon o-buttons-icon--arrow-right o-buttons-icon--icon-only " id="nextPageButton ">
+
+          <span class="o-buttons-icon__label ">Next results</span>
         </button>
       </a>
     </div>
