@@ -251,12 +251,14 @@ input:focus {
     margin-left: 20px;
 }
 
+.inactiveLink {
+    pointer-events: none;
+    cursor: default;
+}
+
 @media (max-width: "768px") {
     #headline-search-container {
         min-height: 10vh;
-    }
-    .latestNews-container {
-        margin: 0;
     }
     #articles-container {
         display: flex;
