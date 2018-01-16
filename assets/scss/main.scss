@@ -257,11 +257,22 @@ input:focus {
 }
 
 @media (max-width: "768px") {
+    main {
+        margin: 1em;
+    }
     #headline-search-container {
         min-height: 10vh;
     }
     .latestNews-container {
         margin: 0;
+        .o-card {
+            max-width: 300px;
+            flex-basis: 300px;
+            .o-card__image img {
+                max-width: 250px;
+                max-height: 290px;
+            }
+        }
     }
     #articles-container {
         display: flex;
