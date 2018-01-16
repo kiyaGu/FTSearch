@@ -25,13 +25,14 @@ self.addEventListener("activate", function(e) {
         caches.keys().then(function(cacheNames) {
             return Promise.all(
                 cacheNames
-                .filter(function(cacheName) {
+                .filter(function(cName) {
                     ////  remove this cache
                     return true;
                 })
-                .map(function(cacheName) {
+                .map(function(cName) {
                     //ServiceWorker Removing old cache cacheName;
-                    return caches.delete(cacheName);
+                    console.log(cName);
+                    return caches.delete(cName);
                 })
             );
         })
@@ -43,25 +44,16 @@ self.addEventListener("activate", function(e) {
 self.addEventListener("fetch", function(event) {
     event.respondWith(
         //prevents the browser's default fetch handling, and allows you to provide a promise for a Response yourself.
-        caches.open(cacheName).then(function(cache) {
-            return cache.match(event.request).then(function(response) {
-                return (
-                    response ||
-                    fetch(event.request)
-                    .then(function(response) {
-                        //key/value pairs to be added to the current Cache object
+        caches.match(event.request).then(function(resp) {
+            return (
+                resp ||
+                fetch(event.request).then(function(response) {
+                    return caches.open(cacheName).then(function(cache) {
                         cache.put(event.request, response.clone());
                         return response;
-                    })
-                    .catch(function() {
-                        // If both fail, show a generic fallback:
-                        return caches.match("/search");
-                        // However, in reality you'd have many different
-                        // fallbacks, depending on URL & headers.
-                        // Eg, a fallback silhouette image for avatars.
-                    })
-                );
-            });
+                    });
+                })
+            );
         })
     );
 });
