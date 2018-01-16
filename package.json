@@ -13,7 +13,7 @@
     },
     "author": "Kiya Gur.",
     "license": "ISC",
-    "heroku-postbuild": "obt build --production --js=./assets/js/main.js --sass=./assets/scss/main.scss --buildJs=js/bundle.js --buildCss=css/bundle.css --buildFolder=public",
+
     "dependencies": {
         "es6-promise": "^4.2.2",
         "express": "^4.16.2",

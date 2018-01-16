@@ -22,8 +22,6 @@ Thumbs.db
 .sass-cache/
 bower_components/
 node_modules/
-public/css/bundle.css
-public/js/bundle.js
 build/
 demos/local/
 env/
