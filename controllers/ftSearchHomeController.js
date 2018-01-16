@@ -8,10 +8,8 @@ module.exports = function(req, res) {
     let query = req.query;
     ftFetch(query, maxResults, offset)
         .then(response => {
-            let articles = [];
-
-            response.results[0].results.forEach(article => {
-                articles.push({
+            return response.results[0].results.map(article => {
+                return {
                     keyword: " FT Latest",
                     title: article.title.title,
                     author: article.editorial.byline,
@@ -26,10 +24,11 @@ module.exports = function(req, res) {
                     tagLink: article.metadata.primarySection ?
                         `https://www.ft.com/${article.metadata.primarySection.term.name.toLowerCase()}` :
                         "#"
-                });
+                };
             });
-
-            res.render("home", { articles: articles });
+        })
+        .then(response => {
+            res.render("home", { articles: response });
         })
         .catch(function(err) {
             // Will catch failure of first failed promise
