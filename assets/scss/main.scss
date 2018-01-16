@@ -262,6 +262,14 @@ input:focus {
     }
     .latestNews-container {
         margin: 0;
+        .o-card {
+            max-width: 350px;
+            flex-basis: 300px;
+            .o-card__image img {
+                width: 100%;
+                width: 100%;
+            }
+        }
     }
     #articles-container {
         display: flex;
