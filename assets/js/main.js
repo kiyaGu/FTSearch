@@ -8,7 +8,11 @@ if (
     document.readyState === "complete"
 ) {
     document.dispatchEvent(new CustomEvent("o.DOMContentLoaded"));
-
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./serviceWorker.js").then(function() {
+            console.log("Service Worker Registered");
+        });
+    }
     const handlePagination = query => {
         let url = `/search${query}`;
         //if fetch is supported by the client browser
