@@ -6,9 +6,6 @@ const ftSearchHomeController = require("./controllers/ftSearchHomeController");
 const ftSearchHeadlinesController = require("./controllers/ftSearchHeadlinesController");
 const moment = require("moment");
 const app = express();
-const hbs = exphbs.create({
-    /* config */
-});
 
 app.use(express.static(path.join(process.cwd(), "/public")));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
