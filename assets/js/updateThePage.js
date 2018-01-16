@@ -14,6 +14,10 @@ module.exports = function(response) {
             createArticleEntry(article, ul);
         });
         //modify the page number displayed
-        setPaginationElements(response.articles[0]);
+
+        setPaginationElements(
+            response.pageInformation,
+            response.articles[0].keyword
+        );
     }
 };
