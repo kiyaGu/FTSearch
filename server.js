@@ -25,3 +25,9 @@ app.get("/search", (req, res) => {
 app.listen(3000, () => {
     console.log("server running at localhost:3000");
 });
+module.exports = app;
+if (!module.parent) {
+    app.listen(process.env.PORT || 3333, () => {
+        console.log("Server is listening on port 3333. Ready to accept requests!");
+    });
+}
