@@ -1,24 +1,25 @@
 {
-  "name": "ft_news_search",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "private": true,
-  "devDependencies": {
-    "nodemon": "^1.14.11",
-    "origami-build-tools": "latest"
-  },
-  "author": "Kiya Gur.",
-  "license": "ISC",
-  "dependencies": {
-    "es6-promise": "^4.2.2",
-    "express": "^4.16.2",
-    "express-formidable": "^1.0.0",
-    "express-handlebars": "^3.0.0",
-    "isomorphic-fetch": "^2.2.1",
-    "moment": "^2.20.1"
-  }
+    "name": "ft_news_search",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "private": true,
+    "devDependencies": {
+        "nodemon": "^1.14.11",
+        "origami-build-tools": "latest"
+    },
+    "author": "Kiya Gur.",
+    "license": "ISC",
+    "heroku-postbuild": "obt build --production --js=./assets/js/main.js --sass=./assets/scss/main.scss --buildJs=js/bundle.js --buildCss=css/bundle.css --buildFolder=public",
+    "dependencies": {
+        "es6-promise": "^4.2.2",
+        "express": "^4.16.2",
+        "express-formidable": "^1.0.0",
+        "express-handlebars": "^3.0.0",
+        "isomorphic-fetch": "^2.2.1",
+        "moment": "^2.20.1"
+    }
 }
