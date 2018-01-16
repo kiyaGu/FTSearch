@@ -58,28 +58,24 @@ if (
     };
 
     //foward pagination
-    let nextPageButton = document.getElementById("nextPage");
+    let nextPageButton = document.getElementById("nextPageLink");
     if (nextPageButton !== null) {
-        document.getElementById("nextPage").addEventListener("click", function(e) {
+        nextPageButton.addEventListener("click", function(e) {
             e.preventDefault();
             //will be used for get request
-            let query = document.getElementById("nextPage").getAttribute("href");
+            let query = nextPageButton.getAttribute("href");
             handlePagination(query);
         });
     }
 
     //backward
-    let previousPageButton = document.getElementById("nextPage");
+    let previousPageButton = document.getElementById("previousPageLink");
     if (previousPageButton !== null) {
-        document
-            .getElementById("previousPage")
-            .addEventListener("click", function(e) {
-                e.preventDefault();
-                let query = document
-                    .getElementById("previousPage")
-                    .getAttribute("href");
-                handlePagination(query);
-            });
+        previousPageButton.addEventListener("click", function(e) {
+            e.preventDefault();
+            let query = previousPageButton.getAttribute("href");
+            handlePagination(query);
+        });
     }
 }
 document.addEventListener("DOMContentLoaded", function() {
