@@ -4,8 +4,7 @@
     {{#each articles}}
     <div class="o-card o-card--standout o-card--image-" data-o-component="o-card">
       <div class="o-card__image o-card__image--">
-        <img src="https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img?source=o-card-demo"
-          alt="demo image"></img>
+        <img src="/images/placeHolderImage.webp" alt="Article image"></img>
       </div>
 
 
@@ -19,7 +18,7 @@
           <a href={{this.link}}>{{this.title}}</a>
         </h3>
         <p class="o-teaser__standfirst">{{this.excerpt}}</p>
-        <p class="latestNews-author">By: {{this.author}}</p>
+        <p class="latestNews-author"> {{this.author}}</p>
         <time data-o-component="o-date" class="o-date o-card__timestamp">{{this.publicationDate}}</time>
       </div>
     </div>
