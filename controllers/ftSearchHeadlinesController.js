@@ -1,5 +1,5 @@
 const moment = require("moment");
-const ftFetch = require("../api/ftFeatch");
+const ftFetch = require("../api/ftFetch");
 
 module.exports = function(req, res) {
     let keyword = req.query.q;
@@ -13,8 +13,9 @@ module.exports = function(req, res) {
         currentPageNumber >= 1 && currentPageNumber <= 200 ?
         (currentPageNumber - 1) * 20 :
         0;
+    let query = req.query;
 
-    ftFetch(req, maxResults, offset).then(response => {
+    ftFetch(query, maxResults, offset).then(response => {
         let articles = [];
         //to be used for pagination page x of totlaNumberOfPages
         let totalNumberOfPages =
