@@ -1,13 +1,11 @@
-<main>
-  {{>search}}
+ {{>search}}
+<section>
   <div class="latestNews-container latestNews-container--landscape">
     {{#each articles}}
     <div class="o-card o-card--standout o-card--image-" data-o-component="o-card">
       <div class="o-card__image o-card__image--">
         <img src="/images/placeHolderImage.png" alt="Article image"></img>
       </div>
-
-
       <div class="o-card__content">
         <div class="o-card__meta">
           <h2 class="card-tag">
@@ -24,4 +22,4 @@
     </div>
     {{/each}}
   </div>
-</main>
+</section>

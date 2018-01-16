@@ -1,29 +1,31 @@
-{{>search}}
-<section id="articles-container">
-  <div class="o-teaser-collection">
-    <h2 class="o-teaser-collection__heading o-teaser-collection__heading--small">
-      <a class="o-teaser-collection__heading-link" href="#">{{articles.0.keyword}}</a>
-    </h2>
-    <ul id="list-of--results">
-      {{>article}}
-    </ul>
-  </div>
+ {{>search}}
+<section>
+  <div id="articles-container">
+    <div class="o-teaser-collection">
+      <h2 class="o-teaser-collection__heading o-teaser-collection__heading--small">
+        <a class="o-teaser-collection__heading-link" href="#">{{this.articles.0.keyword}}</a>
+      </h2>
+      <ul id="list-of--results">
+        {{>article}}
+      </ul>
+    </div>
 
-  <div class="o-buttons__pagination">
-    <a href="?q={{articles.0.keyword}}&page={{articles.0.previousPageNumber}}" id="previousPage">
-      <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-left o-buttons-icon--icon-only">
-        <span class="o-buttons-icon__label">Previous page</span>
-      </button>
-    </a>
-    <span id="pagination_info">Page
-      <span id="currentPage-Number">{{articles.0.currentPageNumber}}</span>&nbsp;of&nbsp;
-      <span id="totalPage-Number">{{articles.0.totalNumberOfPages}}</span>
-    </span>
-    <a href="?q={{articles.0.keyword}}&page={{articles.0.nextPageNumber}}" id="nextPage">
-      <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-right o-buttons-icon--icon-only">
-        <span class="o-buttons-icon__label">Next results</span>
-      </button>
-    </a>
-
+    <div class="o-buttons__pagination">
+      <a href="?q={{articles.articles.0.keyword}}&page={{this.pageInformation.previousPageNumber}}" id="previousPageLink">
+        <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-left o-buttons-icon--icon-only" id="previousPageButton">
+          <span class="o-buttons-icon__label">Previous page</span>
+        </button>
+      </a>
+      <span id="pagination_info">You are at page &nbsp;
+        <span id="currentPage-Number">
+          <strong>{{this.pageInformation.currentPageNumber}}</strong>
+        </span>
+      </span>
+      <a href="?q={{this.articles.0.keyword}}&page={{this.pageInformation.nextPageNumber}}" id="nextPageLink">
+        <button class="o-buttons o-buttons-icon o-buttons-icon--arrow-right o-buttons-icon--icon-only" id="nextPageButton">
+          <span class="o-buttons-icon__label">Next results</span>
+        </button>
+      </a>
+    </div>
   </div>
 </section>
