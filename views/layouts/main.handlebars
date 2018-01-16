@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Origami template</title>
+    <title>FT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link rel="manifest" href="/manifest.json" />
     <!--
       Perform your cuts the mustard test.
     -->
@@ -33,13 +33,12 @@
     <!--
       This is where your CSS bundle is loaded, and we add any inline CSS
     -->
-    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1%3Abrand-ft-logo-square-coloured?source=update-logos&width=32&height=32&format=png"
-        sizes="32x32">
-    <link rel="icon" type="image/png" href="https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1%3Abrand-ft-logo-square-coloured?source=update-logos&width=194&height=194&format=png"
-        sizes="194x194">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://www.ft.com/__origami/service/image/v2/images/raw/ftlogo-v1%3Abrand-ft-logo-square-coloured?source=update-logos&width=180&height=180&format=png">
 
-    <link rel="stylesheet" href="/bundle.css" />
+    <link rel="icon" type="image/png" href="/images/FTlogo32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/images/FTlogo194x194.png" sizes="194x194" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/FTlogo180x180.png" />
+
+    <link rel="stylesheet" href="/css/bundle.css" />
 
     <!--
       Unconditionally load the Polyfill Service to provide the best support
@@ -64,7 +63,7 @@
                 var s = document.getElementsByTagName('script')[0];
                 s.parentNode.insertBefore(o, s);
             }
-        }('/bundle.js'));
+        }('/js/bundle.js'));
     </script>
 </head>
 
