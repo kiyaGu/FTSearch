@@ -2,15 +2,15 @@
   functions for creating DOM elements
    ===================================*/
 //to create DOM elements
-let createElementFunc = function(elementType) {
+const createElementFunc = function(elementType) {
     return document.createElement(elementType);
 };
 //to create text node
-let createTextContentFunc = function(text) {
+const createTextContentFunc = function(text) {
     return document.createTextNode(text);
 };
 //to assign attribute to node elements
-let setElementAttribute = function(element, attribute, value) {
+const setElementAttribute = function(element, attribute, value) {
     element.setAttribute(attribute, value);
 };
 
