@@ -34,8 +34,7 @@ module.exports = (article, ul) => {
 
     let img = createElementFunc("img");
     //as a placeholder needs to be replaced by the actual image, which is not provided for this version of api,Headline Licence,
-    img.src =
-        "https://www.ft.com/__origami/service/image/v2/images/raw/http%3A%2F%2Fim.ft-static.com%2Fcontent%2Fimages%2Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img?url=http%253A%252F%252Fim.ft-static.com%252Fcontent%252Fimages%252Fa60ae24b-b87f-439c-bf1b-6e54946b4cf2.img&source=o-teaser-demo&width=400&height=400&fit=cover&format=auto&quality=medium ";
+    img.src = "/images/FTlogo194x194.png";
 
     setElementAttribute(img, "class", "o-teaser__image");
     setElementAttribute(img, "alt", "article image");
