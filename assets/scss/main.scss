@@ -260,6 +260,9 @@ input:focus {
     #headline-search-container {
         min-height: 10vh;
     }
+    .latestNews-container {
+        margin: 0;
+    }
     #articles-container {
         display: flex;
         flex-direction: column;
