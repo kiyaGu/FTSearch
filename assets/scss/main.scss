@@ -257,15 +257,14 @@ input:focus {
 }
 
 @media (max-width: "768px") {
-    main {
-        margin: 1em;
-    }
     #headline-search-container {
         min-height: 10vh;
     }
     .latestNews-container {
+        justify-content: center;
         margin: 0;
         .o-card {
+            min-width: 250px;
             max-width: 300px;
             flex-basis: 300px;
             .o-card__image img {
