@@ -1,0 +1,24 @@
+{
+    "name": "FT Headline Search",
+    "short_name": "FT Search",
+    "icons": [{
+            "src": "images/FTlogo32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "images/FTlogo180x180.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        },
+        {
+            "src": "images/FTlogo194x194.png",
+            "sizes": "194x194",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fff1e5",
+    "theme_color": "#fff1e5"
+}
