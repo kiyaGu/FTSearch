@@ -6,7 +6,7 @@ module.exports = function(query, maxResult, Offset) {
         let keyword, currentPage;
         if (query) {
             //if no query passed search with empty string => will return latest headlines/news
-            keyword = query.q ? query.q : "";
+            keyword = query.q ? `title:\"${query.q}\"` : "";
             //if the page number has been passed
             currentPage = query.page ? parseInt(query.page) : 1;
         }
@@ -24,7 +24,7 @@ module.exports = function(query, maxResult, Offset) {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    queryString: `title:\"${keyword}\"`,
+                    queryString: keyword,
                     queryContext: {
                         curations: ["ARTICLES", "BLOGS"]
                     },
