@@ -24,9 +24,9 @@ module.exports = function(query, maxResult, Offset) {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    queryString: keyword,
+                    queryString: `title:\"${keyword}\"`,
                     queryContext: {
-                        curations: ["ARTICLES"]
+                        curations: ["ARTICLES", "BLOGS"]
                     },
                     resultContext: {
                         maxResults: maxResult,
