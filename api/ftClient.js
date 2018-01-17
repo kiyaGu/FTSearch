@@ -5,14 +5,18 @@ module.exports = function(query, maxResult, Offset) {
     return new Promise(function(resolve, reject) {
         let keyword, currentPage;
         if (query) {
+            //if no query passed search with empty string => will return latest headlines/news
             keyword = query.q ? query.q : "";
+            //if the page number has been passed
             currentPage = query.page ? parseInt(query.page) : 1;
         }
 
         let offset = 0;
         if (currentPage >= 1 && currentPage <= 200) {
+            //as we are displaying 20 result at a time
             offset = (currentPage - 1) * 20;
         }
+
         fetch("http://api.ft.com/content/search/v1", {
                 method: "POST",
                 headers: {
