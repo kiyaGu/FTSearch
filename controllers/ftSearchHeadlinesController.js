@@ -2,8 +2,7 @@ const moment = require("moment");
 const ftClient = require("../api/ftClient");
 
 module.exports = function(req, res) {
-    const keyword = req.query.q;
-
+    const keyword = `title:\"${req.query.q}\"`;
     //if the page number is passed
     const currentPageNumber = req.query.page ? parseInt(req.query.page) : 1;
 
@@ -18,9 +17,8 @@ module.exports = function(req, res) {
         currentPageNumber >= 1 && currentPageNumber <= 50 ?
         (currentPageNumber - 1) * 20 :
         0;
-    const query = req.query;
 
-    ftClient(query, maxResults, offset)
+    ftClient(keyword, maxResults, offset)
         .then(response => {
             const articles = [];
             //used for pagination and requesting further results
@@ -50,7 +48,7 @@ module.exports = function(req, res) {
             //construct the articles form the returned result by taking the give attributes
             response.results[0].results.forEach(article => {
                 articles.push({
-                    keyword: response.query.queryString,
+                    keyword: req.query.q,
                     title: article.title.title,
                     author: article.editorial.byline,
                     excerpt: article.summary.excerpt,
