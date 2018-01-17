@@ -5,12 +5,13 @@ module.exports = function(req, res) {
     //fetch only the latest 9 results
     let maxResults = 9;
     let offset = 0;
-    let query = req.query;
-    ftClient(query, maxResults, offset)
+    let keyword = "";
+
+    ftClient(keyword, maxResults, offset)
         .then(response => {
             return response.results[0].results.map(article => {
                 return {
-                    keyword: " FT Latest",
+                    keyword: "FT Latest",
                     title: article.title.title,
                     author: article.editorial.byline,
                     excerpt: article.summary.excerpt,
