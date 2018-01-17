@@ -1,12 +1,12 @@
 const moment = require("moment");
-const ftFetch = require("../api/ftFetch");
+const ftClient = require("../api/ftClient");
 
 module.exports = function(req, res) {
     //fetch only the latest 9 results
     let maxResults = 9;
     let offset = 0;
     let query = req.query;
-    ftFetch(query, maxResults, offset)
+    ftClient(query, maxResults, offset)
         .then(response => {
             return response.results[0].results.map(article => {
                 return {

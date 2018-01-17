@@ -1,5 +1,4 @@
 // Output grid helper classes and data-attributes
-$o-grid-is-silent: false;
 $o-fonts-is-silent: false;
 $o-ft-icons-is-silent: false;
 $o-header-is-silent: false;
@@ -10,7 +9,6 @@ $o-buttons-is-silent: false;
 $o-teaser-is-silent: false;
 $o-teaser-collection-is-silent: false;
 // Import Origami components
-@import "o-grid/main";
 @import "o-fonts/main";
 @import "o-icons/main";
 @import "o-header/main";

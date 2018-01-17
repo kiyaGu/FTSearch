@@ -12,6 +12,7 @@ const updatePaginationElementsAttributes = function(page) {
 
     const previousLink = document.getElementById("previousPageLink");
     const nextPageLink = document.getElementById("nextPageLink");
+
     const previousButton = document.getElementById("previousPageButton");
     const nextPageButton = document.getElementById("nextPageButton");
 
@@ -31,16 +32,16 @@ const updatePaginationElementsAttributes = function(page) {
     }
 };
 module.exports = (page, keyword) => {
-    //if there is no more navigation to do disable the pagination elements
+    //if there is no more pagination to do disable the pagination elements
     updatePaginationElementsAttributes(page);
     //update the current page number displayed
     document.getElementById("currentPage-Number").innerHTML =
         page.currentPageNumber;
-    //set this values for backward navigation
+    //set this value for backward pagination
     document.getElementById("previousPageLink").href = `?q=${keyword}&page=${
     page.previousPageNumber
   }`;
-    //set this values for forward navigation
+    //set this values for forward pagination
     document.getElementById("nextPageLink").href = `?q=${keyword}&page=${
     page.nextPageNumber
   }`;

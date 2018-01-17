@@ -1,40 +1,53 @@
 const moment = require("moment");
-const ftFetch = require("../api/ftFetch");
+const ftClient = require("../api/ftClient");
 
 module.exports = function(req, res) {
-    let keyword = req.query.q;
-    let currentPageNumber = req.query.page ? parseInt(req.query.page) : 1;
+    const keyword = req.query.q;
+
+    //if the page number is passed
+    const currentPageNumber = req.query.page ? parseInt(req.query.page) : 1;
+
     //result to be returned
-    let maxResults = 20;
-    //offset to be used for pagination
-    // 200 is the maximum page that can be shown as the api returns a maximum of 4000 indexable result
-    //4000/20(maxresult) = 200
-    let offset =
-        currentPageNumber >= 1 && currentPageNumber <= 200 ?
+    const maxResults = 20;
+
+    //offset to be used for pagination as the api does not serve more than 1000 results for any search query
+    //50 is the maximum page that can be shown 10000/20(maxresult) = 50
+
+    //if we have one page or more than result the page is one constructed is one
+    const offset =
+        currentPageNumber >= 1 && currentPageNumber <= 50 ?
         (currentPageNumber - 1) * 20 :
         0;
-    let query = req.query;
+    const query = req.query;
 
-    ftFetch(query, maxResults, offset)
+    ftClient(query, maxResults, offset)
         .then(response => {
-            let articles = [];
-            let pageInformation = {};
-            //to be used for pagination page x of totlaNumberOfPages
-            let totalNumberOfPages =
-                response.results[0].indexCount < 4000 ?
+            const articles = [];
+            //used for pagination and requesting further results
+            const pageInformation = {};
+            //to be used for pagination control
+            const totalNumberOfPages =
+                response.results[0].indexCount < 1000 ?
                 response.results[0].indexCount > 20 ?
-                Math.ceil(response.results[0].indexCount / 20) // result less than 20 => only 1 page
+                Math.ceil(response.results[0].indexCount / 20) //b/n 20 and 1000
                 :
-                1 :
-                200;
+                1 // result less than 20 => only 1 page
+                :
+                50; // result greater than 1000 => 50 page
+
+            //if at page 1, no more previous pageNumber stay at 1
             pageInformation.previousPageNumber =
                 currentPageNumber - 1 >= 1 ? currentPageNumber - 1 : 1;
+
             pageInformation.currentPageNumber = currentPageNumber;
+            //as long as it is less than total number of pages currentPage++
             pageInformation.nextPageNumber =
                 currentPageNumber + 1 > totalNumberOfPages ?
                 currentPageNumber :
                 currentPageNumber + 1;
+
             pageInformation.totalNumberOfPages = totalNumberOfPages;
+            //construct the articles form the returned result by taking the give attributes
             response.results[0].results.forEach(article => {
                 articles.push({
                     keyword: response.query.queryString,
@@ -53,14 +66,15 @@ module.exports = function(req, res) {
                         "#"
                 });
             });
-            return Object.assign({}, { pageInformation: pageInformation, articles: articles });
+            return { pageInformation: pageInformation, articles: articles };
         })
         .then(response => {
-            let contentType = req.headers["content-type"];
+            const contentType = req.headers["content-type"];
             if (contentType == "application/json") {
                 //for ajax and fetch implementations of pagination
                 res.json(response);
             } else {
+                //fetching with JS disabled
                 res.render("articles", response);
             }
         });

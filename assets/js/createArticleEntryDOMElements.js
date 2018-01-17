@@ -16,6 +16,7 @@ const setElementAttribute = function(element, attribute, value) {
 
 module.exports = (article, ul) => {
     //will create the HTML element that matches the one at views/partials/article.handlebars
+
     let li = createElementFunc("li");
     let articleTag = createElementFunc("article");
 

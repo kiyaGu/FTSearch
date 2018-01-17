@@ -5,6 +5,7 @@ module.exports = function(response) {
     if (response) {
         // get the <ul> that holds all the dispalyed articles
         let ul = document.getElementById("list-of--results");
+
         //remove all the current childer nodes
         while (ul.firstChild) {
             ul.removeChild(ul.firstChild);
@@ -13,8 +14,8 @@ module.exports = function(response) {
         response.articles.forEach(article => {
             createArticleEntry(article, ul);
         });
-        //modify the page number displayed
 
+        //modify the page number displayed
         setPaginationElements(
             response.pageInformation,
             response.articles[0].keyword

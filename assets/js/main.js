@@ -14,11 +14,11 @@ if (
             .register("/serviceWorker.js")
             .then(function(reg) {
                 // registration worked
-                console.log("Registration succeeded");
+                console.log("Service Worker Registration succeeded");
             })
             .catch(function(error) {
                 // registration failed
-                console.log("Registration failed with " + error);
+                console.log("Service Worker Registration failed with " + error);
             });
     }
 
@@ -39,7 +39,7 @@ if (
                 });
         } else {
             let request = Ajax_request();
-            /* to dynamically fetching the news from the API */
+            /* fetch the articles/news using XMLHttpRequest/AJAX*/
             (function() {
                 request.onreadystatechange = function() {
                     if (request.readyState === 4) {
@@ -68,6 +68,8 @@ if (
 
     //foward pagination
     let nextPageButton = document.getElementById("nextPageLink");
+
+    //because they are not yet put to the DOM, need to check
     if (nextPageButton !== null) {
         nextPageButton.addEventListener("click", function(e) {
             e.preventDefault();
