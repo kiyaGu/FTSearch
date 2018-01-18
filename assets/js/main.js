@@ -8,6 +8,10 @@ if (
     document.readyState === "complete"
 ) {
     document.dispatchEvent(new CustomEvent("o.DOMContentLoaded"));
+}
+document.addEventListener("DOMContentLoaded", function() {
+    // Dispatch a custom event that will tell all required modules to initialise
+    document.dispatchEvent(new CustomEvent("o.DOMContentLoaded"));
     //if service worker is supported register it
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker
@@ -32,7 +36,10 @@ if (
                         "Content-Type": "application/json"
                     }
                 })
-                .then(res => res.json())
+                .then(res => {
+                    console.log(res.body);
+                    return res.json();
+                })
                 .catch(error => console.error("Error:", error))
                 .then(response => {
                     updateThePage(response);
@@ -88,8 +95,4 @@ if (
             handlePagination(query);
         });
     }
-}
-document.addEventListener("DOMContentLoaded", function() {
-    // Dispatch a custom event that will tell all required modules to initialise
-    document.dispatchEvent(new CustomEvent("o.DOMContentLoaded"));
 });

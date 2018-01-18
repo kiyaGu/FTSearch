@@ -1,0 +1,28 @@
+ {{>search}}
+<section>
+  <div id="articles-container">
+    <div class="o-teaser-collection">
+      <h1 class="o-teaser-collection__heading o-teaser-collection__heading--small">
+        <strong>
+          <u> {{errorMessage.title}}</u>
+        </strong>
+      </h1>
+      <ul id="list-of--results">
+        <li>
+          <article class="o-teaser o-teaser--has-image " data-o-component="o-teaser">
+            <div class="o-teaser__content">
+              <div class="o-teaser__meta">
+                <h2 class="article__tag">
+                  {{errorMessage.heading}}
+                </h2>
+              </div>
+              <h3 class="o-teaser__heading">
+                {{errorMessage.message}}
+              </h3>
+            </div>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
