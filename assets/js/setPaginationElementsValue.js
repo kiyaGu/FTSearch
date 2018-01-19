@@ -41,6 +41,7 @@ module.exports = (page, keyword) => {
     document.getElementById("previousPageLink").href = `?q=${keyword}&page=${
     page.previousPageNumber
   }`;
+
     //set this values for forward pagination
     document.getElementById("nextPageLink").href = `?q=${keyword}&page=${
     page.nextPageNumber

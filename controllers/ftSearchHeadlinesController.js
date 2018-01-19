@@ -70,7 +70,7 @@ module.exports = function(req, res) {
                 const errorMessage = {
                     title: "ERROR",
                     heading: "Sorry,",
-                    message: `We don't have an article or blog that includes '${
+                    message: `We don't have an article or a blog post that includes '${
             req.query.q
           }' in its headline at the moment`
                 };
