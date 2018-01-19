@@ -8,11 +8,10 @@ if (
     document.readyState === "complete"
 ) {
     document.dispatchEvent(new CustomEvent("o.DOMContentLoaded"));
-}
-document.addEventListener("DOMContentLoaded", function() {
     // Dispatch a custom event that will tell all required modules to initialise
     document.dispatchEvent(new CustomEvent("o.DOMContentLoaded"));
     //if service worker is supported register it
+
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker
             .register("/serviceWorker.js")
@@ -36,14 +35,15 @@ document.addEventListener("DOMContentLoaded", function() {
                         "Content-Type": "application/json"
                     }
                 })
-                .then(res => {
-                    console.log(res.body);
-                    return res.json();
-                })
-                .catch(error => console.error("Error:", error))
                 .then(response => {
-                    updateThePage(response);
-                });
+                    var contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json().then(data => {
+                            updateThePage(data);
+                        });
+                    }
+                })
+                .catch(error => console.error("Error:", error));
         } else {
             let request = Ajax_request();
             /* fetch the articles/news using XMLHttpRequest/AJAX*/
@@ -74,8 +74,24 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     //foward pagination
-    let nextPageButton = document.getElementById("nextPageLink");
+    let searchButton = document.getElementById("headline-search--submit");
+    searchButton.addEventListener("click", function(e) {
+        const formData = new FormData(
+            document.getElementById("headline-search--form")
+        );
+        //this is used to fetch the json data and store it in cache to be used by
+        //service workers in displaying the first page of the result. If not, the first request
+        //for search returns html and during pagination it expects json data and reuse the existing template
+        //this will cause SyntaxError: Unexpected token < in JSON at position 0
+        let q = formData.get("q");
+        let url = `/search?q=${q}&page=1`;
+        self.navigator.serviceWorker.controller.postMessage({
+            url: url
+        });
+    });
 
+    //foward pagination
+    let nextPageButton = document.getElementById("nextPageLink");
     //because they are not yet put to the DOM, need to check
     if (nextPageButton !== null) {
         nextPageButton.addEventListener("click", function(e) {
@@ -88,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     //backward
     let previousPageButton = document.getElementById("previousPageLink");
+    //because they are not yet put to the DOM, need to check
     if (previousPageButton !== null) {
         previousPageButton.addEventListener("click", function(e) {
             e.preventDefault();
@@ -95,4 +112,5 @@ document.addEventListener("DOMContentLoaded", function() {
             handlePagination(query);
         });
     }
-});
+}
+document.addEventListener("DOMContentLoaded", function() {});
