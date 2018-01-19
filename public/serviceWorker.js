@@ -1,6 +1,8 @@
 const cacheName = "FTHeadlineSearch-1";
 const filesToCache = [
     "/",
+    "/manifest.json",
+    "/serviceWorker.js",
     "/js/bundle.js",
     "/css/bundle.css",
     "/images/FTlogo32x32.png",
@@ -8,15 +10,33 @@ const filesToCache = [
     "/images/FTlogo194x194.png",
     "/images/placeHolderImage.png"
 ];
-
+//The service worker installation event is a good time to cache static assets
+//This ensures that all the resources a service worker is expected to have are cached
+//when the service worker is installed.
 self.addEventListener("install", function(e) {
     // console.log("[ServiceWorker] Install");
+    // ensures that the pages are cached before installation is completed
     e.waitUntil(
         caches.open(cacheName).then(function(cache) {
             //console.log("[ServiceWorker] Caching app shell");
             return cache.addAll(filesToCache);
         })
     );
+});
+self.addEventListener("message", function(event) {
+    console.log("SW got message:" + event.data.url);
+    fetch(event.data.url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(res => {
+        caches.open(cacheName).then(function(cache) {
+            //console.log("[ServiceWorker] Caching app shell");
+
+            cache.put(event.data.url, res);
+        });
+    });
 });
 
 self.addEventListener("activate", function(e) {
@@ -30,29 +50,68 @@ self.addEventListener("activate", function(e) {
                     return true;
                 })
                 .map(function(cName) {
+                    //TODO
                     //ServiceWorker Removing old cache cacheName;
-                    return caches.delete(cName);
+                    //  return caches.delete(cName);
                 })
             );
         })
     );
-    /* lets you activate the service worker faster.*/
+    /* lets you activate the service worker faster. else
+                      sevice worker won’t take control until the next time the page is loaded.
+                  */
     return self.clients.claim();
 });
 
 self.addEventListener("fetch", function(event) {
     event.respondWith(
-        //prevents the browser's default fetch handling, and allows you to provide a promise for a Response yourself.
-        caches.match(event.request).then(function(resp) {
-            return (
-                resp ||
-                fetch(event.request).then(function(response) {
-                    return caches.open(cacheName).then(function(cache) {
-                        cache.put(event.request, response.clone());
-                        return response;
-                    });
-                })
-            );
+        caches.open(cacheName).then(function(cache) {
+            //prevents the browser's default fetch handling, and allows you to provide a promise for a Response yourself.
+            return cache.match(event.request).then(function(response) {
+                //If a request doesn't match anything in the cache, get it from the network,
+                //send it to the page & add it to the cache at the same time.
+                return (
+                    response ||
+                    fetch(event.request)
+                    .then(function(response) {
+                        var contentType = response.headers.get("content-type");
+                        //TODO if response type is json store it in indexDB
+                        // if (
+                        //     contentType &&
+                        //     contentType.indexOf("application/json") !== -1
+                        // ) {
+                        //     console.log("json", response);
+                        // }
+                        if (response.status < 400) {
+                            // This avoids caching responses that we know are errors (i.e. HTTP status code of 4xx or 5xx).
+                            // We call .clone() on the request since we might use it in the call to cache.put() later on.
+                            cache.put(event.request, response.clone());
+                            return response;
+                        } else {
+                            //for other response.status fetch / page
+                            return caches.match("/");
+                        }
+                    })
+                    .catch(function() {
+                        //as a fallback if there is no more record to fetch due to
+                        //network failure fallback to the first page of the current search
+                        let q = getParameterByName("q", event.request.url);
+                        if (q) {
+                            return caches.match(`/search?q=${q}&page=1`);
+                        }
+                    })
+                );
+            });
         })
     );
 });
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return "";
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
