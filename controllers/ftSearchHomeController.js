@@ -13,7 +13,7 @@ module.exports = function(req, res) {
                 return {
                     keyword: "FT Latest",
                     title: article.title.title,
-                    author: article.editorial.byline,
+                    author: article.editorial.byline ? article.editorial.byline : "",
                     excerpt: article.summary.excerpt,
                     publicationDate: moment(
                         article.lifecycle.initialPublishDateTime

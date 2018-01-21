@@ -51,7 +51,7 @@ module.exports = function(req, res) {
                     articles.push({
                         keyword: req.query.q,
                         title: article.title.title,
-                        author: article.editorial.byline,
+                        author: article.editorial.byline ? article.editorial.byline : "",
                         excerpt: article.summary.excerpt,
                         publicationDate: moment(
                             article.lifecycle.initialPublishDateTime
