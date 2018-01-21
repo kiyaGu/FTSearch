@@ -46,8 +46,7 @@ if (
                     }
                 })
                 .then(response => {
-                    var contentType = response.headers.get("content-type");
-
+                    const contentType = response.headers.get("content-type");
                     if (contentType.indexOf("application/json") !== -1) {
                         //if the returned reponse is
                         response.json().then(resp => {
@@ -214,15 +213,9 @@ if (
                 //The browser throws an error if we try to create an object store that already exists in the database
                 //so we wrap the createObjectStore method in an if statement that checks if the object store exists.
                 if (!upgradeDb.objectStoreNames.contains("articles")) {
-                    var articlesOS = upgradeDb.createObjectStore("articles");
+                    let articlesOS = upgradeDb.createObjectStore("articles");
                     articlesOS.createIndex("keyword", "keyword", { unique: false });
                     articlesOS.createIndex("url", "url", { unique: true });
-                }
-                if (!upgradeDb.objectStoreNames.contains("keywords")) {
-                    var logsOS = upgradeDb.createObjectStore("keywords", {
-                        keyPath: "id",
-                        autoIncrement: true
-                    });
                 }
             });
             if (dbPromise) {
@@ -235,12 +228,12 @@ if (
 
     function saveDataToDB(dbPromise, data, url) {
         //open a transaction by calling the transaction method on the database object.
-        var tx = dbPromise.transaction("articles", "readwrite");
+        let tx = dbPromise.transaction("articles", "readwrite");
         //open the "articles" object store on this transaction and assign it to the articles variable.
-        var articles = tx.objectStore("articles");
+        let articleStore = tx.objectStore("articles");
 
         //returns a promise and must happen within a transaction
-        articles.put(data, url);
+        articleStore.put(data, url);
         if (tx.complete) {
             console.log("added item to the store articles os!");
             return tx.complete;
@@ -249,17 +242,17 @@ if (
 
     function readSingleDataFromDB(dbPromise, key) {
         //getting the database object and creating a transaction
-        var tx = dbPromise.transaction("articles", "readonly");
+        let tx = dbPromise.transaction("articles", "readonly");
         //open the object store on the transaction and assign the resulting object store object to the store variable
-        var store = tx.objectStore("articles");
+        let articleStore = tx.objectStore("articles");
         //If you try to get an object that doesn't exist, the success handler still executes, but the result is undefined.
-        return store.get(key);
+        return articleStore.get(key);
     }
 
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
             results = regex.exec(url);
         if (!results) return null;
         if (!results[2]) return "";

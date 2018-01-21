@@ -60,13 +60,12 @@ self.addEventListener("fetch", function(event) {
                     response ||
                     fetch(event.request)
                     .then(function(response) {
-                        var contentType = response.headers.get("content-type");
                         if (response.status < 400) {
                             // This avoids caching responses that we know are errors (i.e. HTTP status code of 4xx or 5xx).
                             // We call .clone() on the request since we might use it in the call to cache.put() later on.
                             //clone the response because the request is a stream that can only be consumed once
                             const resp = response.clone();
-                            var contentType = resp.headers.get("content-type");
+                            const contentType = resp.headers.get("content-type");
 
                             if (
                                 contentType == null ||
