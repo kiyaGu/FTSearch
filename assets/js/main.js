@@ -24,9 +24,19 @@ if (
                 console.log("Service Worker Registration failed with " + error);
             });
     }
+    let idb = require("./../lib/idb");
+    (function() {
+        //check for support
+        if (!("indexedDB" in window)) {
+            console.log("This browser doesn't support IndexedDB");
+            return;
+        }
+    })();
 
     const handlePagination = query => {
         let url = `/search${query}`;
+        let q = getParameterByName("q", url);
+        let fallbackUrl = `/search?q=${q}&page=1`;
         //if fetch is supported by the client browser
         if (self.fetch) {
             fetch(url, {
@@ -37,13 +47,40 @@ if (
                 })
                 .then(response => {
                     var contentType = response.headers.get("content-type");
-                    if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(data => {
-                            updateThePage(data);
+
+                    if (contentType.indexOf("application/json") !== -1) {
+                        //if the returned reponse is
+                        response.json().then(resp => {
+                            creatOrLoadDB()
+                                .then(dbPromise => {
+                                    //we can safely assume that when .then executes, the database is open and all object stores and indexes are ready for use
+                                    //save or update the response locally
+                                    saveDataToDB(dbPromise, resp, url);
+                                })
+                                .then(function() {
+                                    //update the view
+                                    updateThePage(resp);
+                                });
                         });
                     }
                 })
-                .catch(error => console.error("Error:", error));
+                .catch(error => {
+                    //if no reponse from ntwk or error
+                    //fallback to the first page of the current search
+                    creatOrLoadDB().then(dbPromise => {
+                        readSingleDataFromDB(dbPromise, fallbackUrl)
+                            .then(data => {
+                                if (data) {
+                                    // update the view with the first page data page and the user can naviagte again
+                                    //with the data saved locally changing the view with each navigation
+                                    updateThePage(data);
+                                }
+                            })
+                            .catch(error => {
+                                console.log("Error:" + error);
+                            });
+                    });
+                });
         } else {
             let request = Ajax_request();
             /* fetch the articles/news using XMLHttpRequest/AJAX*/
@@ -53,20 +90,33 @@ if (
                         // check if a response was sent back
                         if (request.status === 200) {
                             // check if request was successful
-                            let response = JSON.parse(request.responseText);
-                            updateThePage(response);
+                            let response = JSON.parse(request.response);
+                            creatOrLoadDB().then(dbPromise => {
+                                //save or update the response locally
+                                saveDataToDB(dbPromise, response, url);
+                                updateThePage(response);
+                            });
                         } else {
-                            alert(
-                                "An error occurred during your request: " +
-                                request.status +
-                                " " +
-                                request.statusText
-                            );
+                            //as a fallback if there is no more record to fetch due to
+                            //network failure fallback to the first page of the current search
+                            creatOrLoadDB().then(dbPromise => {
+                                readSingleDataFromDB(dbPromise, fallbackUrl)
+                                    .then(data => {
+                                        if (data) {
+                                            //data found locally => update the view
+                                            updateThePage(data);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.log("Error:" + error);
+                                    });
+                            });
                         }
                     }
                 };
 
                 request.open("GET", url);
+                request.setRequestHeader("Content-Type", "application/json");
                 request.setRequestHeader("Accepts", "application/json");
                 request.send();
             })();
@@ -85,9 +135,21 @@ if (
         //this will cause SyntaxError: Unexpected token < in JSON at position 0
         let q = formData.get("q");
         let url = `/search?q=${q}&page=1`;
-        self.navigator.serviceWorker.controller.postMessage({
-            url: url
-        });
+
+        fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(response => {
+                creatOrLoadDB().then(dbPromise =>
+                    saveDataToDB(dbPromise, response, url)
+                );
+            });
     });
 
     //foward pagination
@@ -98,7 +160,22 @@ if (
             e.preventDefault();
             //will be used for get request
             let query = nextPageButton.getAttribute("href");
-            handlePagination(query);
+            let url = "/search" + query;
+            creatOrLoadDB().then(dbPromise => {
+                readSingleDataFromDB(dbPromise, url)
+                    .then(data => {
+                        if (data) {
+                            //data found locally => update the view
+                            updateThePage(data);
+                        } else {
+                            //data not in found locally => get it from network
+                            handlePagination(query);
+                        }
+                    })
+                    .catch(error => {
+                        console.log("Error:" + error);
+                    });
+            });
         });
     }
 
@@ -109,8 +186,85 @@ if (
         previousPageButton.addEventListener("click", function(e) {
             e.preventDefault();
             let query = previousPageButton.getAttribute("href");
-            handlePagination(query);
+            let url = "/search" + query;
+
+            creatOrLoadDB().then(dbPromise => {
+                readSingleDataFromDB(dbPromise, url)
+                    .then(data => {
+                        if (data) {
+                            //data found locally => update the view
+                            updateThePage(data);
+                        } else {
+                            //data not in found locally => get it from network
+                            handlePagination(query);
+                        }
+                    })
+                    .catch(error => {
+                        console.log("Error:" + error);
+                    });
+            });
         });
     }
+
+    //save josn data to the indexDB
+    function creatOrLoadDB() {
+        return new Promise(function(resolve, reject) {
+            let dbPromise = idb.open("FT-Search", 1, function(upgradeDb) {
+                console.log("making a new object store");
+                //The browser throws an error if we try to create an object store that already exists in the database
+                //so we wrap the createObjectStore method in an if statement that checks if the object store exists.
+                if (!upgradeDb.objectStoreNames.contains("articles")) {
+                    var articlesOS = upgradeDb.createObjectStore("articles");
+                    articlesOS.createIndex("keyword", "keyword", { unique: false });
+                    articlesOS.createIndex("url", "url", { unique: true });
+                }
+                if (!upgradeDb.objectStoreNames.contains("keywords")) {
+                    var logsOS = upgradeDb.createObjectStore("keywords", {
+                        keyPath: "id",
+                        autoIncrement: true
+                    });
+                }
+            });
+            if (dbPromise) {
+                resolve(dbPromise);
+            } else {
+                reject(Error("Error: the database cannot be created"));
+            }
+        });
+    }
+
+    function saveDataToDB(dbPromise, data, url) {
+        //open a transaction by calling the transaction method on the database object.
+        var tx = dbPromise.transaction("articles", "readwrite");
+        //open the "articles" object store on this transaction and assign it to the articles variable.
+        var articles = tx.objectStore("articles");
+
+        //returns a promise and must happen within a transaction
+        articles.put(data, url);
+        if (tx.complete) {
+            console.log("added item to the store articles os!");
+            return tx.complete;
+        }
+    }
+
+    function readSingleDataFromDB(dbPromise, key) {
+        //getting the database object and creating a transaction
+        var tx = dbPromise.transaction("articles", "readonly");
+        //open the object store on the transaction and assign the resulting object store object to the store variable
+        var store = tx.objectStore("articles");
+        //If you try to get an object that doesn't exist, the success handler still executes, but the result is undefined.
+        return store.get(key);
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 }
+
 document.addEventListener("DOMContentLoaded", function() {});
