@@ -14,7 +14,9 @@ module.exports = function(req, res) {
                     keyword: "FT Latest",
                     title: article.title.title,
                     author: article.editorial.byline ? article.editorial.byline : "",
-                    excerpt: article.summary.excerpt,
+                    excerpt: article.summary.excerpt ?
+                        article.summary.excerpt :
+                        "No exerpt or summary found",
                     publicationDate: moment(
                         article.lifecycle.initialPublishDateTime
                     ).format("dddd, Do MMMM, YYYY"),
